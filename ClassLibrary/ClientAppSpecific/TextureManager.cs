@@ -85,7 +85,7 @@ public static class PlayerStateHandler
         // Load all textures into cache
         foreach (var pair in directionTextures)
         {
-            string filePath = Path.Combine(TextureManager.TEXTURES_FOLDER, pair.Value);
+            string filePath = TextureManager.GetTexturePath(pair.Value);
             if (File.Exists(filePath))
             {
                 try
@@ -160,7 +160,7 @@ public static class PlayerStateHandler
         // If the player has collected a coin, try to get the coin texture
         if (hasCollectedCoin && cachedTextures.TryGetValue(PlayerDirection.Default, out var coinTexture))
         {
-            string coinTexturePath = Path.Combine(TextureManager.TEXTURES_FOLDER, "player_coin.png");
+            string coinTexturePath = TextureManager.GetTexturePath("player_coin.png");
             try
             {
                 if (File.Exists(coinTexturePath))
@@ -188,6 +188,15 @@ public static class PlayerStateHandler
         cachedTextures.TryGetValue(PlayerDirection.Default, out var defaultTexture);
         return defaultTexture;
     }
+
+    /// <summary>
+    /// Clears cached textures and reloads them – used when the user switches the skin at runtime.
+    /// </summary>
+    public static void ReloadTextures()
+    {
+        cachedTextures.Clear();
+        Initialize();
+    }
 }
 
 public static class TextureManager
@@ -200,6 +209,12 @@ public static class TextureManager
     private static Random random = new Random();
     private static bool initialized = false;
     public const string TEXTURES_FOLDER = "Textures";
+
+    /// <summary>
+    /// Combines the textures root folder with the currently selected skin (1-5) and file name.
+    /// </summary>
+    public static string GetTexturePath(string fileName) => Path.Combine(TEXTURES_FOLDER, GV.CurrentSkin.ToString(), fileName);
+
     private static readonly Dictionary<string, string> textureFiles = new Dictionary<string, string>
     {
         { "COLLECTIBLE_COIN-1", "coin-1.png" },
@@ -240,7 +255,7 @@ public static class TextureManager
         // Load all textures
         foreach (var pair in textureFiles)
         {
-            string filePath = Path.Combine(TEXTURES_FOLDER, pair.Value);
+            string filePath = GetTexturePath(pair.Value);
             if (File.Exists(filePath))
             {
                 try
@@ -312,5 +327,36 @@ public static class TextureManager
     public static Image GetPlayerTexture()
     {
         return PlayerStateHandler.GetCurrentTexture();
+    }
+
+    /// <summary>
+    /// Reload every texture after skin switch.
+    /// </summary>
+    public static void ReloadTextures()
+    {
+        textures.Clear();
+        BackgroundTexture = null;
+        PlayerTexture = null;
+        initialized = false;
+
+        // also refresh player directional textures
+        PlayerStateHandler.ReloadTextures();
+
+        Initialize();
+    }
+
+    /// <summary>
+    /// Convenience helper – cycles through the available skins and reloads all textures.
+    /// </summary>
+    public static void ChangeSkin(int newSkinId)
+    {
+        // clamp & store
+        if (newSkinId < 1) newSkinId = 1;
+        if (newSkinId > 5) newSkinId = 5;
+
+        if (GV.CurrentSkin == newSkinId) return;
+
+        GV.CurrentSkin = newSkinId;
+        ReloadTextures();
     }
 }

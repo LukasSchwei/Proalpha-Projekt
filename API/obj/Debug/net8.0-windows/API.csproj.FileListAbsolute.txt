@@ -19,6 +19,7 @@ C:\Users\lukas\Downloads\Proalpha-Projekt\API\obj\Debug\net8.0-windows\API.Assem
 C:\Users\lukas\Downloads\Proalpha-Projekt\API\obj\Debug\net8.0-windows\API.csproj.CoreCompileInputs.cache
 C:\Users\lukas\Downloads\Proalpha-Projekt\API\obj\Debug\net8.0-windows\API.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\lukas\Downloads\Proalpha-Projekt\API\obj\Debug\net8.0-windows\API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\lukas\Downloads\Proalpha-Projekt\API\obj\Debug\net8.0-windows\API.sourcelink.json
 C:\Users\lukas\Downloads\Proalpha-Projekt\API\obj\Debug\net8.0-windows\staticwebassets.build.json
 C:\Users\lukas\Downloads\Proalpha-Projekt\API\obj\Debug\net8.0-windows\staticwebassets.development.json
 C:\Users\lukas\Downloads\Proalpha-Projekt\API\obj\Debug\net8.0-windows\staticwebassets\msbuild.API.Microsoft.AspNetCore.StaticWebAssets.props

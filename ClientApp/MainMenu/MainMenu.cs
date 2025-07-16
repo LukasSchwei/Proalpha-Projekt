@@ -2,19 +2,19 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using ClassLibrary.GlobalVariables;
+using ClassLibrary.TextureManager;
 
 namespace ClientApp;
 public partial class MainMenu : Form
 {
     private readonly Button btnStart;
     private readonly Button btnControls;
+    private readonly Button btnChangeSkin;
     private readonly Button btnQuit;
     private readonly FlowLayoutPanel buttonPanel;
 
     private readonly Image? backgroundImage;
-
-    private const string ButtonTexturePath = "Textures/button.png";
-    private const string ButtonHoverTexturePath = "Textures/button_hover.png";
 
     private readonly Image? defaultButtonImage;
     private readonly Image? hoverButtonImage;
@@ -36,7 +36,7 @@ public partial class MainMenu : Form
         }
 
         // Load custom background if present
-        string bgPath = Path.Combine("Textures", "main_menu.png");
+        string bgPath = Path.Combine("Textures", GV.CurrentSkin.ToString(), "main_menu.png");
         if (File.Exists(bgPath))
         {
             backgroundImage = Image.FromFile(bgPath);
@@ -45,10 +45,10 @@ public partial class MainMenu : Form
         this.BackColor = Color.Black; // fallback when background missing / for letter-boxing
 
         //preload button textures
-        if (File.Exists(ButtonTexturePath))
-            defaultButtonImage = Image.FromFile(ButtonTexturePath);
-        if (File.Exists(ButtonHoverTexturePath))
-            hoverButtonImage = Image.FromFile(ButtonHoverTexturePath);
+        if (File.Exists("Textures/button.png"))
+            defaultButtonImage = Image.FromFile("Textures/button.png");
+        if (File.Exists("Textures/button_hover.png"))
+            hoverButtonImage = Image.FromFile("Textures/button_hover.png");
 
         //create UI controls
         Font buttonFont = new Font("Segoe UI", 14, FontStyle.Bold);
@@ -88,6 +88,9 @@ public partial class MainMenu : Form
         btnControls = CreateMenuButton("Controls");
         btnControls.Click += ShowControls;
 
+        btnChangeSkin = CreateMenuButton("Change Skin");
+        btnChangeSkin.Click += ChangeSkin;
+
         btnQuit = CreateMenuButton("Quit");
         btnQuit.Click += (s, e) => Application.Exit();
 
@@ -100,11 +103,12 @@ public partial class MainMenu : Form
             AutoScroll = false,
             Padding = new Padding(0)
         };
-        buttonPanel.Controls.AddRange(new Control[] { btnStart, btnControls, btnQuit });
+        buttonPanel.Controls.AddRange(new Control[] { btnStart, btnControls, btnChangeSkin, btnQuit });
 
         // smaller vertical spacing
         btnStart.Margin = new Padding(0, 0, 0, 10);
         btnControls.Margin = new Padding(0, 0, 0, 10);
+        btnChangeSkin.Margin = new Padding(0, 0, 0, 10);
         btnQuit.Margin = new Padding(0);
 
         this.Controls.Add(buttonPanel);
@@ -146,6 +150,19 @@ public partial class MainMenu : Form
             "F8 - Algorithmic BFS Solve if map is already known";
 
         MessageBox.Show(controlsText, "Game Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+
+    private void ChangeSkin(object? sender, EventArgs e)
+    {
+        // cycle through 1…5
+        int next = GV.CurrentSkin % 5 + 1;
+        TextureManager.ChangeSkin(next);
+
+        // provide quick feedback in button text
+        btnChangeSkin.Text = $"Skin {next}";
+
+        // invalidate the form to update the UI
+        this.Invalidate();
     }
 
     // anti-flicker: ensure windows uses composited style
@@ -193,7 +210,7 @@ public partial class MainMenu : Form
             dest = new Rectangle(0, offsetY, drawWidth, drawHeight);
         }
 
-        g.DrawImage(backgroundImage, dest);
+        g.DrawImage(Image.FromFile(Path.Combine("Textures", GV.CurrentSkin.ToString(), "main_menu.png")), dest);
     }
 
     private void RepositionPanel()

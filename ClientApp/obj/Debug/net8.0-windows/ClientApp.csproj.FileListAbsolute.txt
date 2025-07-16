@@ -22,6 +22,7 @@ C:\Users\lukas\Downloads\Proalpha-Projekt\ClientApp\obj\Debug\net8.0-windows\Cli
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClientApp\obj\Debug\net8.0-windows\ClientApp.AssemblyInfoInputs.cache
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClientApp\obj\Debug\net8.0-windows\ClientApp.AssemblyInfo.cs
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClientApp\obj\Debug\net8.0-windows\ClientApp.csproj.CoreCompileInputs.cache
+C:\Users\lukas\Downloads\Proalpha-Projekt\ClientApp\obj\Debug\net8.0-windows\ClientApp.sourcelink.json
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClientApp\obj\Debug\net8.0-windows\ClientApp.csproj.Up2Date
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClientApp\obj\Debug\net8.0-windows\ClientApp.dll
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClientApp\obj\Debug\net8.0-windows\refint\ClientApp.dll

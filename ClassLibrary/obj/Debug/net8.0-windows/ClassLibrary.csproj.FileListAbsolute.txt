@@ -5,6 +5,7 @@ C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ClassLibrary.AssemblyInfoInputs.cache
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ClassLibrary.AssemblyInfo.cs
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ClassLibrary.csproj.CoreCompileInputs.cache
+C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ClassLibrary.sourcelink.json
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ClassLibrary.dll
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\refint\ClassLibrary.dll
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ClassLibrary.pdb

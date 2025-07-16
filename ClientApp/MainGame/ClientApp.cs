@@ -638,7 +638,7 @@ public partial class ClientApp : Form
         if (shouldShowLoading)
         {
             // Try to load main_menu.png directly
-            string loadingBackgroundPath = Path.Combine("Textures", "main_menu.png");
+            string loadingBackgroundPath = Path.Combine("Textures", GV.CurrentSkin.ToString(), "main_menu.png");
             if (File.Exists(loadingBackgroundPath))
             {
 
