@@ -1,0 +1,674 @@
+{
+  "-5,0": {
+    "AbsoluteX": -5,
+    "AbsoluteY": 0,
+    "RelativeX": 0,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-4,-1": {
+    "AbsoluteX": -4,
+    "AbsoluteY": -1,
+    "RelativeX": 1,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-4,0": {
+    "AbsoluteX": -4,
+    "AbsoluteY": 0,
+    "RelativeX": 1,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-4,1": {
+    "AbsoluteX": -4,
+    "AbsoluteY": 1,
+    "RelativeX": 1,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-3,-2": {
+    "AbsoluteX": -3,
+    "AbsoluteY": -2,
+    "RelativeX": 2,
+    "RelativeY": -1,
+    "Name": "SOLID_ROCK",
+    "Type": "SOLID_ROCK"
+  },
+  "-3,-1": {
+    "AbsoluteX": -3,
+    "AbsoluteY": -1,
+    "RelativeX": 2,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-3,0": {
+    "AbsoluteX": -3,
+    "AbsoluteY": 0,
+    "RelativeX": 2,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-3,1": {
+    "AbsoluteX": -3,
+    "AbsoluteY": 1,
+    "RelativeX": 2,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-3,2": {
+    "AbsoluteX": -3,
+    "AbsoluteY": 2,
+    "RelativeX": 2,
+    "RelativeY": 3,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-2,-3": {
+    "AbsoluteX": -2,
+    "AbsoluteY": -3,
+    "RelativeX": 3,
+    "RelativeY": -2,
+    "Name": "SOLID_ROCK",
+    "Type": "SOLID_ROCK"
+  },
+  "-2,-2": {
+    "AbsoluteX": -2,
+    "AbsoluteY": -2,
+    "RelativeX": 3,
+    "RelativeY": -1,
+    "Name": "SOLID_ROCK",
+    "Type": "SOLID_ROCK"
+  },
+  "-2,-1": {
+    "AbsoluteX": -2,
+    "AbsoluteY": -1,
+    "RelativeX": 3,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-2,0": {
+    "AbsoluteX": -2,
+    "AbsoluteY": 0,
+    "RelativeX": 3,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-2,1": {
+    "AbsoluteX": -2,
+    "AbsoluteY": 1,
+    "RelativeX": 3,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-2,2": {
+    "AbsoluteX": -2,
+    "AbsoluteY": 2,
+    "RelativeX": -2,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-1,-4": {
+    "AbsoluteX": -1,
+    "AbsoluteY": -4,
+    "RelativeX": 1,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-1,-3": {
+    "AbsoluteX": -1,
+    "AbsoluteY": -3,
+    "RelativeX": 1,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-1,-2": {
+    "AbsoluteX": -1,
+    "AbsoluteY": -2,
+    "RelativeX": 4,
+    "RelativeY": -1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-1,-1": {
+    "AbsoluteX": -1,
+    "AbsoluteY": -1,
+    "RelativeX": 4,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-1,0": {
+    "AbsoluteX": -1,
+    "AbsoluteY": 0,
+    "RelativeX": 4,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-1,1": {
+    "AbsoluteX": -1,
+    "AbsoluteY": 1,
+    "RelativeX": -1,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-1,2": {
+    "AbsoluteX": -1,
+    "AbsoluteY": 2,
+    "RelativeX": -1,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "0,-4": {
+    "AbsoluteX": 0,
+    "AbsoluteY": -4,
+    "RelativeX": 2,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "0,-3": {
+    "AbsoluteX": 0,
+    "AbsoluteY": -3,
+    "RelativeX": 2,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "0,-2": {
+    "AbsoluteX": 0,
+    "AbsoluteY": -2,
+    "RelativeX": 2,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "0,-1": {
+    "AbsoluteX": 0,
+    "AbsoluteY": -1,
+    "RelativeX": 5,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "0,0": {
+    "AbsoluteX": 0,
+    "AbsoluteY": 0,
+    "RelativeX": -1,
+    "RelativeY": 1,
+    "Name": "INFO_STARTPOS",
+    "Type": "INFO_STARTPOS"
+  },
+  "0,1": {
+    "AbsoluteX": 0,
+    "AbsoluteY": 1,
+    "RelativeX": 0,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "0,2": {
+    "AbsoluteX": 0,
+    "AbsoluteY": 2,
+    "RelativeX": 0,
+    "RelativeY": 2,
+    "Name": "COLLECTIBLE_COIN",
+    "Type": "COLLECTIBLE_COIN"
+  },
+  "1,-4": {
+    "AbsoluteX": 1,
+    "AbsoluteY": -4,
+    "RelativeX": 3,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "1,-3": {
+    "AbsoluteX": 1,
+    "AbsoluteY": -3,
+    "RelativeX": 3,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "1,-2": {
+    "AbsoluteX": 1,
+    "AbsoluteY": -2,
+    "RelativeX": 3,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "1,-1": {
+    "AbsoluteX": 1,
+    "AbsoluteY": -1,
+    "RelativeX": 1,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "1,0": {
+    "AbsoluteX": 1,
+    "AbsoluteY": 0,
+    "RelativeX": 0,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "1,1": {
+    "AbsoluteX": 1,
+    "AbsoluteY": 1,
+    "RelativeX": -1,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "1,2": {
+    "AbsoluteX": 1,
+    "AbsoluteY": 2,
+    "RelativeX": 1,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "2,-3": {
+    "AbsoluteX": 2,
+    "AbsoluteY": -3,
+    "RelativeX": 4,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "2,-2": {
+    "AbsoluteX": 2,
+    "AbsoluteY": -2,
+    "RelativeX": 1,
+    "RelativeY": -1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "2,-1": {
+    "AbsoluteX": 2,
+    "AbsoluteY": -1,
+    "RelativeX": 1,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "2,0": {
+    "AbsoluteX": 2,
+    "AbsoluteY": 0,
+    "RelativeX": 1,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "2,1": {
+    "AbsoluteX": 2,
+    "AbsoluteY": 1,
+    "RelativeX": 0,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "2,2": {
+    "AbsoluteX": 2,
+    "AbsoluteY": 2,
+    "RelativeX": 2,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "3,-2": {
+    "AbsoluteX": 3,
+    "AbsoluteY": -2,
+    "RelativeX": -3,
+    "RelativeY": -2,
+    "Name": "SOLID_WALL",
+    "Type": "SOLID_WALL"
+  },
+  "3,-1": {
+    "AbsoluteX": 3,
+    "AbsoluteY": -1,
+    "RelativeX": 1,
+    "RelativeY": -1,
+    "Name": "SOLID_WALL",
+    "Type": "SOLID_WALL"
+  },
+  "3,0": {
+    "AbsoluteX": 3,
+    "AbsoluteY": 0,
+    "RelativeX": 1,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "3,1": {
+    "AbsoluteX": 3,
+    "AbsoluteY": 1,
+    "RelativeX": 1,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "3,2": {
+    "AbsoluteX": 3,
+    "AbsoluteY": 2,
+    "RelativeX": -3,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "4,-1": {
+    "AbsoluteX": 4,
+    "AbsoluteY": -1,
+    "RelativeX": 1,
+    "RelativeY": -1,
+    "Name": "COLLECTIBLE_COIN",
+    "Type": "COLLECTIBLE_COIN"
+  },
+  "4,0": {
+    "AbsoluteX": 4,
+    "AbsoluteY": 0,
+    "RelativeX": 1,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "4,1": {
+    "AbsoluteX": 4,
+    "AbsoluteY": 1,
+    "RelativeX": 1,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "5,0": {
+    "AbsoluteX": 5,
+    "AbsoluteY": 0,
+    "RelativeX": 1,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "3,-3": {
+    "AbsoluteX": 3,
+    "AbsoluteY": -3,
+    "RelativeX": -1,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "2,-4": {
+    "AbsoluteX": 2,
+    "AbsoluteY": -4,
+    "RelativeX": 4,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "3,-4": {
+    "AbsoluteX": 3,
+    "AbsoluteY": -4,
+    "RelativeX": 5,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "4,-4": {
+    "AbsoluteX": 4,
+    "AbsoluteY": -4,
+    "RelativeX": 0,
+    "RelativeY": -1,
+    "Name": "COLLECTIBLE_COIN",
+    "Type": "COLLECTIBLE_COIN"
+  },
+  "4,-3": {
+    "AbsoluteX": 4,
+    "AbsoluteY": -3,
+    "RelativeX": -2,
+    "RelativeY": -3,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "4,-2": {
+    "AbsoluteX": 4,
+    "AbsoluteY": -2,
+    "RelativeX": -2,
+    "RelativeY": -2,
+    "Name": "SOLID_WALL",
+    "Type": "SOLID_WALL"
+  },
+  "5,-4": {
+    "AbsoluteX": 5,
+    "AbsoluteY": -4,
+    "RelativeX": -1,
+    "RelativeY": -4,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "5,-3": {
+    "AbsoluteX": 5,
+    "AbsoluteY": -3,
+    "RelativeX": -1,
+    "RelativeY": -3,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "5,-2": {
+    "AbsoluteX": 5,
+    "AbsoluteY": -2,
+    "RelativeX": -1,
+    "RelativeY": -2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "5,-1": {
+    "AbsoluteX": 5,
+    "AbsoluteY": -1,
+    "RelativeX": 1,
+    "RelativeY": -1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "6,-4": {
+    "AbsoluteX": 6,
+    "AbsoluteY": -4,
+    "RelativeX": 0,
+    "RelativeY": -4,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "6,-3": {
+    "AbsoluteX": 6,
+    "AbsoluteY": -3,
+    "RelativeX": 0,
+    "RelativeY": -3,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "6,-2": {
+    "AbsoluteX": 6,
+    "AbsoluteY": -2,
+    "RelativeX": 0,
+    "RelativeY": -2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "6,-1": {
+    "AbsoluteX": 6,
+    "AbsoluteY": -1,
+    "RelativeX": 1,
+    "RelativeY": -1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "6,0": {
+    "AbsoluteX": 6,
+    "AbsoluteY": 0,
+    "RelativeX": 1,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "5,1": {
+    "AbsoluteX": 5,
+    "AbsoluteY": 1,
+    "RelativeX": 1,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "6,1": {
+    "AbsoluteX": 6,
+    "AbsoluteY": 1,
+    "RelativeX": 1,
+    "RelativeY": 1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "4,2": {
+    "AbsoluteX": 4,
+    "AbsoluteY": 2,
+    "RelativeX": -2,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "5,2": {
+    "AbsoluteX": 5,
+    "AbsoluteY": 2,
+    "RelativeX": -1,
+    "RelativeY": 2,
+    "Name": "COLLECTIBLE_DYNAMITE",
+    "Type": "COLLECTIBLE_DYNAMITE"
+  },
+  "6,2": {
+    "AbsoluteX": 6,
+    "AbsoluteY": 2,
+    "RelativeX": 0,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-2,-4": {
+    "AbsoluteX": -2,
+    "AbsoluteY": -4,
+    "RelativeX": 1,
+    "RelativeY": -1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-3,-4": {
+    "AbsoluteX": -3,
+    "AbsoluteY": -4,
+    "RelativeX": 2,
+    "RelativeY": -3,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-3,-3": {
+    "AbsoluteX": -3,
+    "AbsoluteY": -3,
+    "RelativeX": 2,
+    "RelativeY": -2,
+    "Name": "COLLECTIBLE_COIN",
+    "Type": "COLLECTIBLE_COIN"
+  },
+  "-5,-4": {
+    "AbsoluteX": -5,
+    "AbsoluteY": -4,
+    "RelativeX": 0,
+    "RelativeY": -3,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-5,-3": {
+    "AbsoluteX": -5,
+    "AbsoluteY": -3,
+    "RelativeX": 0,
+    "RelativeY": -2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-5,-2": {
+    "AbsoluteX": -5,
+    "AbsoluteY": -2,
+    "RelativeX": 0,
+    "RelativeY": -1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-4,-4": {
+    "AbsoluteX": -4,
+    "AbsoluteY": -4,
+    "RelativeX": 1,
+    "RelativeY": -3,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-4,-3": {
+    "AbsoluteX": -4,
+    "AbsoluteY": -3,
+    "RelativeX": 1,
+    "RelativeY": -2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-4,-2": {
+    "AbsoluteX": -4,
+    "AbsoluteY": -2,
+    "RelativeX": 1,
+    "RelativeY": -1,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-5,-1": {
+    "AbsoluteX": -5,
+    "AbsoluteY": -1,
+    "RelativeX": 0,
+    "RelativeY": 0,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-5,1": {
+    "AbsoluteX": -5,
+    "AbsoluteY": 1,
+    "RelativeX": 0,
+    "RelativeY": 2,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-5,2": {
+    "AbsoluteX": -5,
+    "AbsoluteY": 2,
+    "RelativeX": 0,
+    "RelativeY": 3,
+    "Name": "NONE",
+    "Type": "NONE"
+  },
+  "-4,2": {
+    "AbsoluteX": -4,
+    "AbsoluteY": 2,
+    "RelativeX": 1,
+    "RelativeY": 3,
+    "Name": "COLLECTIBLE_DYNAMITE",
+    "Type": "COLLECTIBLE_DYNAMITE"
+  }
+}
