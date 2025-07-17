@@ -1,5 +1,3 @@
-C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\bin\Debug\net8.0-windows\ClassLibrary.deps.json
-C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\bin\Debug\net8.0-windows\ClassLibrary.dll
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\bin\Debug\net8.0-windows\ClassLibrary.pdb
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ClassLibrary.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ClassLibrary.AssemblyInfoInputs.cache
@@ -9,4 +7,6 @@ C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ClassLibrary.dll
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\refint\ClassLibrary.dll
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ClassLibrary.pdb
+C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\bin\Debug\net8.0-windows\ClassLibrary.deps.json
+C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\bin\Debug\net8.0-windows\ClassLibrary.dll
 C:\Users\lukas\Downloads\Proalpha-Projekt\ClassLibrary\obj\Debug\net8.0-windows\ref\ClassLibrary.dll

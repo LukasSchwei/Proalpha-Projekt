@@ -155,7 +155,7 @@ public partial class MainMenu : Form
     private void ChangeSkin(object? sender, EventArgs e)
     {
         // cycle through 1…5
-        int next = GV.CurrentSkin % 5 + 1;
+        int next = GV.CurrentSkin % 4 + 1;
         TextureManager.ChangeSkin(next);
 
         // provide quick feedback in button text
