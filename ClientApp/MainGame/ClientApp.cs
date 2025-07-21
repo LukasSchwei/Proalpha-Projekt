@@ -540,7 +540,6 @@ public partial class ClientApp : Form
                 }
 
                 Invalidate();
-
                 foreach (var step in path)
                 {
                     await Move(step.x, step.y);
@@ -585,7 +584,6 @@ public partial class ClientApp : Form
                 }
 
                 Invalidate();
-
                 foreach (var step in unknownPath)
                 {
                     await Move(step.x, step.y);
