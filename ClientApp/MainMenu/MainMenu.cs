@@ -146,8 +146,7 @@ public partial class MainMenu : Form
             "G - Back to Main Menu\n" +
             "F1 - Algorithmic BFS Solve\n" +
             "F2 - Algorithmic A* Solve (WARNING: slow)\n" +
-            "F3 - Reveal whole map\n" +
-            "F8 - Algorithmic BFS Solve if map is already known";
+            "F3 - Reveal whole map";
 
         MessageBox.Show(controlsText, "Game Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }

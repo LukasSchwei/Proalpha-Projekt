@@ -43,11 +43,12 @@ public static class V
     ///////////////Algorithm Logic FasterSolve Constants/////////////
     ///////////////
 
-    public const int CHANGE_TO_UNKNOWN_MAP1 = 20;
-    public const int TRY_FINISH_MAP1 = 999;
-    public const int CHANGE_TO_UNKNOWN_MAP2 = 20;
-    public const int TRY_FINISH_MAP2 = 999;
+    public const int CHANGE_TO_UNKNOWN_MAP1 = 5;
+    public const int CHANGE_TO_UNKNOWN_MAP2 = 10;
     public const int CHANGE_TO_UNKNOWN_MAP3 = 20;
+
+    public const int TRY_FINISH_MAP1 = 999;
+    public const int TRY_FINISH_MAP2 = 999;
     public const int TRY_FINISH_MAP3 = 20;
 
     public const int IGNORE_UNKNOWN_ON_Y_MAP1 = 0;
@@ -61,6 +62,10 @@ public static class V
     public const int FINISH_COIN_COUNTER_MAP1 = 404;
     public const int FINISH_COIN_COUNTER_MAP2 = 332;
     public const int FINISH_COIN_COUNTER_MAP3 = 20;
+
+    public const int LOOK_THREASHOLD_MAP1 = 3;
+    public const int LOOK_THREASHOLD_MAP2 = 2;
+    public const int LOOK_THREASHOLD_MAP3 = 4;
 
     ///////////////
     ///////////////Login Variables/////////////

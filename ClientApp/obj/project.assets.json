@@ -3372,11 +3372,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClientApp\\ClientApp.csproj",
+      "projectUniqueName": "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClientApp\\ClientApp.csproj",
       "projectName": "ClientApp",
-      "projectPath": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClientApp\\ClientApp.csproj",
+      "projectPath": "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClientApp\\ClientApp.csproj",
       "packagesPath": "C:\\Users\\lukas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClientApp\\obj\\",
+      "outputPath": "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClientApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lukas\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -3394,8 +3394,8 @@
             "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\API\\API.csproj": {
               "projectPath": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\API\\API.csproj"
             },
-            "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj": {
-              "projectPath": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj"
+            "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj": {
+              "projectPath": "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj"
             }
           }
         }

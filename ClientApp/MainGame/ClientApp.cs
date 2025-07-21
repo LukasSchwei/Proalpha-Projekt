@@ -124,6 +124,7 @@ public partial class ClientApp : Form
             case Keys.F1: await AlgorithmicSolve(V.map, "BFS"); break;
             case Keys.F2: await AlgorithmicSolve(V.map, "AStar"); break;
             case Keys.F3: await RevealWholeMap(); break;
+                //MAPSAVINGCHEAT NICHT BENUTZEN!
                 //case Keys.F8: await AlgorithmicSolveBFS(MapSavingCheat.ReadMap()); break;
                 //case Keys.F12: await DEBUGshowActionCounter(); break;
         }
@@ -400,40 +401,45 @@ public partial class ClientApp : Form
     /// <param name="algorithm">The algorithm to use.</param>
     private async Task AlgorithmicSolve(Dictionary<(int x, int y), AbsoluteObject> map, string algorithm)
     {
-        int BFSChangeToUnknown;
-        int BFSTryFinish;
+        int changeToUnknown;
+        int tryFinish;
         int ignoreUnknownOnX;
         int ignoreUnknownOnY;
         int finishCoinCounter;
+        int lookThreashold;
         switch (GV.CurrentMap)
         {
             case GV.MAP_3:
-                BFSChangeToUnknown = V.CHANGE_TO_UNKNOWN_MAP3;
-                BFSTryFinish = V.TRY_FINISH_MAP3;
+                changeToUnknown = V.CHANGE_TO_UNKNOWN_MAP3;
+                tryFinish = V.TRY_FINISH_MAP3;
                 ignoreUnknownOnX = V.IGNORE_UNKNOWN_ON_X_MAP3;
                 ignoreUnknownOnY = V.IGNORE_UNKNOWN_ON_Y_MAP3;
                 finishCoinCounter = V.FINISH_COIN_COUNTER_MAP3;
+                lookThreashold = V.LOOK_THREASHOLD_MAP3;
                 break;
             case GV.MAP_2:
-                BFSChangeToUnknown = V.CHANGE_TO_UNKNOWN_MAP2;
-                BFSTryFinish = V.TRY_FINISH_MAP2;
+                changeToUnknown = V.CHANGE_TO_UNKNOWN_MAP2;
+                tryFinish = V.TRY_FINISH_MAP2;
                 ignoreUnknownOnX = V.IGNORE_UNKNOWN_ON_X_MAP2;
                 ignoreUnknownOnY = V.IGNORE_UNKNOWN_ON_Y_MAP2;
                 finishCoinCounter = V.FINISH_COIN_COUNTER_MAP2;
+                lookThreashold = V.LOOK_THREASHOLD_MAP2;
                 break;
             case GV.MAP_1:
-                BFSChangeToUnknown = V.CHANGE_TO_UNKNOWN_MAP1;
-                BFSTryFinish = V.TRY_FINISH_MAP1;
+                changeToUnknown = V.CHANGE_TO_UNKNOWN_MAP1;
+                tryFinish = V.TRY_FINISH_MAP1;
                 ignoreUnknownOnX = V.IGNORE_UNKNOWN_ON_X_MAP1;
                 ignoreUnknownOnY = V.IGNORE_UNKNOWN_ON_Y_MAP1;
                 finishCoinCounter = V.FINISH_COIN_COUNTER_MAP1;
+                lookThreashold = V.LOOK_THREASHOLD_MAP1;
                 break;
             default:
-                BFSChangeToUnknown = 20;
-                BFSTryFinish = 999;
+                changeToUnknown = 20;
+                tryFinish = 999;
                 ignoreUnknownOnX = 0;
                 ignoreUnknownOnY = 0;
                 finishCoinCounter = 999;
+                lookThreashold = 4;
                 break;
         }
         await Look();
@@ -460,7 +466,27 @@ public partial class ClientApp : Form
             }
             if (path == null)
             {
-                await Look();
+                int lookLock = 0;
+                if (map.ContainsKey((V.currentPosition.AbsoluteX + 5, V.currentPosition.AbsoluteY + 5)))
+                {
+                    lookLock++;
+                }
+                if (map.ContainsKey((V.currentPosition.AbsoluteX - 5, V.currentPosition.AbsoluteY + 5)))
+                {
+                    lookLock++;
+                }
+                if (map.ContainsKey((V.currentPosition.AbsoluteX + 5, V.currentPosition.AbsoluteY - 5)))
+                {
+                    lookLock++;
+                }
+                if (map.ContainsKey((V.currentPosition.AbsoluteX - 5, V.currentPosition.AbsoluteY - 5)))
+                {
+                    lookLock++;
+                }
+                if (lookLock < lookThreashold)
+                {
+                    await Look();
+                }
                 if (algorithm == "AStar")
                 {
                     path = AStarPathfinding.FindPath(V.map, "COLLECTIBLE_COIN", V.currentPosition, V.globalMapMinX, V.globalMapMinY, V.globalMapMaxX, V.globalMapMaxY);
@@ -475,7 +501,7 @@ public partial class ClientApp : Form
                 }
 
             }
-            else if (path.Count > BFSChangeToUnknown && map != MapSavingCheat.ReadMap())
+            else if (path.Count > changeToUnknown && map != MapSavingCheat.ReadMap())
             {
                 if (algorithm == "AStar")
                 {
@@ -533,7 +559,7 @@ public partial class ClientApp : Form
             }
             else if (unknownPath != null)
             {
-                if (unknownPath.Count > BFSTryFinish && map != MapSavingCheat.ReadMap())
+                if (unknownPath.Count > tryFinish && coinCollectedCounter >= finishCoinCounter)
                 {
                     //DEBUGshowActionCounter();
                     await Finish();

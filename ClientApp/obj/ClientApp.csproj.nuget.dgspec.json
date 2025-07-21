@@ -26,8 +26,8 @@
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj": {
-                "projectPath": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj"
+              "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj": {
+                "projectPath": "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj"
               }
             }
           }
@@ -83,14 +83,14 @@
         }
       }
     },
-    "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj": {
+    "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj",
+        "projectUniqueName": "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj",
         "projectName": "ClassLibrary",
-        "projectPath": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj",
+        "projectPath": "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj",
         "packagesPath": "C:\\Users\\lukas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\obj\\",
+        "outputPath": "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\lukas\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -169,8 +169,8 @@
               "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\API\\API.csproj": {
                 "projectPath": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\API\\API.csproj"
               },
-              "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj": {
-                "projectPath": "C:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj"
+              "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj": {
+                "projectPath": "c:\\Users\\lukas\\Downloads\\Proalpha-Projekt\\ClassLibrary\\ClassLibrary.csproj"
               }
             }
           }
