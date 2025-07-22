@@ -18,8 +18,14 @@ using ClassLibrary.Map;
 using System.IO;
 
 namespace ClientApp;
+
 public partial class ClientApp : Form
 {
+    public enum Algorithm
+    {
+        AStar,
+        BFS
+    }
     public static IWin32Window owner;
     public static System.Windows.Forms.Timer loadingTimer;
 
@@ -69,6 +75,9 @@ public partial class ClientApp : Form
 
         // Initialize textures
         TextureManager.Initialize();
+
+        // Set up the redraw trigger for the state machine
+        PlayerStateHandler.TriggerRedraw = () => this.Invalidate();
 
         CenterOnPlayer();
 
@@ -121,8 +130,8 @@ public partial class ClientApp : Form
             case Keys.C: await Collect(); break;
             case Keys.G: await Quit(); break;
             case Keys.F: await Finish(); break;
-            case Keys.F1: await AlgorithmicSolve(V.map, "BFS"); break;
-            case Keys.F2: await AlgorithmicSolve(V.map, "AStar"); break;
+            case Keys.F1: await AlgorithmicSolve(V.map, Algorithm.BFS); break;
+            case Keys.F2: await AlgorithmicSolve(V.map, Algorithm.AStar); break;
             case Keys.F3: await RevealWholeMap(); break;
                 //MAPSAVINGCHEAT NICHT BENUTZEN!
                 //case Keys.F8: await AlgorithmicSolveBFS(MapSavingCheat.ReadMap()); break;
@@ -208,7 +217,7 @@ public partial class ClientApp : Form
 
         try
         {
-            // Update player direction before moving
+            // Update player direction and state before moving
             PlayerStateHandler.SetDirection(x, y);
 
             ClientAPICom clientAPICom = new ClientAPICom();
@@ -260,7 +269,8 @@ public partial class ClientApp : Form
 
         try
         {
-            PlayerStateHandler.SetDirection(0, 0);
+            // Set spawn state on login, showing player.png
+            PlayerStateHandler.SetState(PlayerState.Spawn);
             V.actioncounter = 0;
             GV.finished = false;
             V.map.Clear();
@@ -297,6 +307,9 @@ public partial class ClientApp : Form
                 V.isLoading = false;
             }
             loadingTimer.Stop();
+
+            // Stay in spawn state - don't transition to idle until first movement
+
             Invalidate(); // Force redraw to remove loading screen
         }
     }
@@ -380,7 +393,7 @@ public partial class ClientApp : Form
             // Update player state to show coin collection effect
             if (V.map[(V.currentPosition.AbsoluteX, V.currentPosition.AbsoluteY)].Type == "COLLECTIBLE_COIN")
             {
-                PlayerStateHandler.SetCollectedCoin();
+                PlayerStateHandler.Collect();
             }
 
             await Map.Update(new List<AbsoluteObject>() { new AbsoluteObject() { AbsoluteX = V.currentPosition.AbsoluteX, AbsoluteY = V.currentPosition.AbsoluteY, Type = "NONE" } });
@@ -399,7 +412,7 @@ public partial class ClientApp : Form
     /// </summary>
     /// <param name="map">The map to solve.</param>
     /// <param name="algorithm">The algorithm to use.</param>
-    private async Task AlgorithmicSolve(Dictionary<(int x, int y), AbsoluteObject> map, string algorithm)
+    private async Task AlgorithmicSolve(Dictionary<(int x, int y), AbsoluteObject> map, Algorithm algorithm)
     {
         int changeToUnknown;
         int tryFinish;
@@ -449,7 +462,7 @@ public partial class ClientApp : Form
         V.globalMapMinY + ignoreUnknownOnY, V.globalMapMaxX - ignoreUnknownOnX, V.globalMapMaxY - ignoreUnknownOnY, owner) != null)
         {
             List<(int x, int y)>? path;
-            if (algorithm == "AStar")
+            if (algorithm == Algorithm.AStar)
             {
                 path = AStarPathfinding.FindPath(V.map, "COLLECTIBLE_COIN", V.currentPosition, V.globalMapMinX, V.globalMapMinY, V.globalMapMaxX, V.globalMapMaxY);
             }
@@ -487,7 +500,7 @@ public partial class ClientApp : Form
                 {
                     await Look();
                 }
-                if (algorithm == "AStar")
+                if (algorithm == Algorithm.AStar)
                 {
                     path = AStarPathfinding.FindPath(V.map, "COLLECTIBLE_COIN", V.currentPosition, V.globalMapMinX, V.globalMapMinY, V.globalMapMaxX, V.globalMapMaxY);
                     unknownPath = AStarPathfinding.FindPathToUnknown(V.map, V.currentPosition, V.globalMapMinX + ignoreUnknownOnX,
@@ -503,7 +516,7 @@ public partial class ClientApp : Form
             }
             else if (path.Count > changeToUnknown && map != MapSavingCheat.ReadMap())
             {
-                if (algorithm == "AStar")
+                if (algorithm == Algorithm.AStar)
                 {
                     unknownPath = AStarPathfinding.FindPathToUnknown(V.map, V.currentPosition, V.globalMapMinX + ignoreUnknownOnX,
                     V.globalMapMinY + ignoreUnknownOnY, V.globalMapMaxX - ignoreUnknownOnX, V.globalMapMaxY - ignoreUnknownOnY);
