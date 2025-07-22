@@ -4,9 +4,22 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
+using System.Timers;
 using ClassLibrary.GlobalVariables;
 
 namespace ClassLibrary.TextureManager;
+
+#region Enums
+/// <summary>
+/// Represents the possible player states in the game.
+/// </summary>
+public enum PlayerState
+{
+    Spawn,      // Shows player.png on login
+    Moving,     // Shows directional movement textures
+    Collecting, // Shows player_coin.png when collecting
+    Idle        // Alternates between player_idle1.png and player_idle2.png
+}
 
 /// <summary>
 /// Represents the possible directions a player can face in the game.
@@ -30,36 +43,44 @@ public enum PlayerDirection
     West2,
     NorthWest1,
     NorthWest2,
+    Idle1,
+    Idle2,
     Default
 }
+#endregion
 
+#region PlayerStateHandler
 /// <summary>
-/// Manages the player's state including direction, animations, and texture handling.
-/// Handles loading and caching of player textures based on direction and game state.
+/// Manages the player's state machine including direction, animations, and texture handling.
+/// Handles loading and caching of player textures based on current state and direction.
 /// </summary>
 public static class PlayerStateHandler
 {
     //////////////////////////////////////
     //////////////VARIABLES///////////////
     //////////////////////////////////////
+    private static PlayerState currentState = PlayerState.Spawn;
     private static PlayerDirection currentDirection = PlayerDirection.Default;
-    private static bool hasCollectedCoin = false;
     private static readonly Dictionary<PlayerDirection, string> directionTextures = new();
     private static readonly Dictionary<PlayerDirection, Image> cachedTextures = new();
+    private static System.Timers.Timer? idleTimer;
+    private static System.Timers.Timer? idleAnimationTimer;
+    private static bool idleAnimationState = true; // true = idle1, false = idle2
+    private static bool moveAnimationState = false; // toggles between 1 and 2 for movement
+
+    public static PlayerState CurrentState => currentState;
     public static PlayerDirection CurrentDirection => currentDirection;
 
-    /// <summary>
-    /// Tracks animation state (alternates between true/false for walking animation).
-    /// </summary>
-    private static bool movemode = false;
+    // Event to trigger redraw when texture changes
+    public static Action? TriggerRedraw { get; set; }
 
     //////////////////////////////////////
     //////////////METHODS/////////////////
     //////////////////////////////////////
 
     /// <summary>
-    /// Initializes the texture manager by setting up texture mappings and loading textures.
-    /// Creates Textures directory if it doesn't exist and loads all player textures.
+    /// Initializes the state machine by setting up texture mappings and loading textures.
+    /// Creates texture cache and sets up timers for state transitions.
     /// </summary>
     public static void Initialize()
     {
@@ -80,6 +101,8 @@ public static class PlayerStateHandler
         directionTextures[PlayerDirection.West2] = "player_west2.png";
         directionTextures[PlayerDirection.NorthWest1] = "player_northwest1.png";
         directionTextures[PlayerDirection.NorthWest2] = "player_northwest2.png";
+        directionTextures[PlayerDirection.Idle1] = "player_idle1.png";
+        directionTextures[PlayerDirection.Idle2] = "player_idle2.png";
         directionTextures[PlayerDirection.Default] = "player.png";
 
         // Load all textures into cache
@@ -88,28 +111,123 @@ public static class PlayerStateHandler
             string filePath = TextureManager.GetTexturePath(pair.Value);
             if (File.Exists(filePath))
             {
-                try
-                {
-                    cachedTextures[pair.Key] = Image.FromFile(filePath);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Failed to load texture {filePath}: {ex.Message}");
-                }
+                cachedTextures[pair.Key] = Image.FromFile(filePath);
             }
+        }
+
+        // Also load the coin collection texture
+        string coinTexturePath = TextureManager.GetTexturePath("player_coin.png");
+        if (File.Exists(coinTexturePath))
+        {
+            // Using a special key for the coin texture
+            cachedTextures[PlayerDirection.Default] = Image.FromFile(coinTexturePath);
+        }
+
+        // Initialize timers
+        SetupTimers();
+
+        // Start in spawn state and stay there until first movement
+        SetState(PlayerState.Spawn);
+    }
+
+    /// <summary>
+    /// Sets up the idle and idle animation timers.
+    /// </summary>
+    private static void SetupTimers()
+    {
+        // Timer to transition from Moving to Idle after 1000ms of no movement
+        idleTimer = new System.Timers.Timer(1000);
+        idleTimer.Elapsed += (sender, e) =>
+        {
+            if (currentState == PlayerState.Moving)
+            {
+                SetState(PlayerState.Idle);
+            }
+        };
+        idleTimer.AutoReset = false; // Only fire once
+
+        // Timer for idle animation (switches between idle1 and idle2 every 1000ms)
+        idleAnimationTimer = new System.Timers.Timer(1000);
+        idleAnimationTimer.Elapsed += (sender, e) =>
+        {
+            // Only animate if we're in idle state
+            if (currentState == PlayerState.Idle)
+            {
+                idleAnimationState = !idleAnimationState;
+                currentDirection = idleAnimationState ? PlayerDirection.Idle1 : PlayerDirection.Idle2;
+                // Trigger a redraw to show the new texture
+                TriggerRedraw?.Invoke();
+            }
+        };
+        idleAnimationTimer.AutoReset = true; // Repeat continuously
+    }
+
+    /// <summary>
+    /// Sets the player's state and handles state-specific logic.
+    /// </summary>
+    /// <param name="newState">The new state to transition to.</param>
+    public static void SetState(PlayerState newState)
+    {
+        // Only stop the idle timer, keep idle animation timer running
+        idleTimer?.Stop();
+
+        var oldState = currentState;
+        currentState = newState;
+
+        switch (newState)
+        {
+            case PlayerState.Spawn:
+                currentDirection = PlayerDirection.Default;
+                break;
+
+            case PlayerState.Moving:
+                // The direction is already set by SetDirection method
+                // Start idle timer to transition to idle if no further movement
+                idleTimer?.Start();
+                break;
+
+            case PlayerState.Collecting:
+                // Keep current direction, just change how we render
+                Task.Delay(500).ContinueWith(_ =>
+                {
+                    if (currentState == PlayerState.Collecting)
+                    {
+                        // Return to idle state after collecting
+                        SetState(PlayerState.Idle);
+                    }
+                });
+                break;
+
+            case PlayerState.Idle:
+                // Start with idle1 and begin animation
+                idleAnimationState = true;
+                currentDirection = PlayerDirection.Idle1;
+                // Start the idle animation timer if it's not running yet
+                if (idleAnimationTimer != null && !idleAnimationTimer.Enabled)
+                {
+                    idleAnimationTimer.Start();
+                }
+                // Trigger immediate redraw to show idle state
+                TriggerRedraw?.Invoke();
+                break;
         }
     }
 
     /// <summary>
-    /// Sets the player's direction based on the given delta X and Y values.
-    /// Updates the current direction and game state accordingly.
+    /// Handles movement input and updates the player's direction and state.
     /// </summary>
     /// <param name="deltaX">Change in X position.</param>
     /// <param name="deltaY">Change in Y position.</param>
     public static void SetDirection(int deltaX, int deltaY)
     {
-        movemode = !movemode;
-        currentDirection = (deltaX, deltaY, movemode) switch
+        // If no movement, don't change anything
+        if (deltaX == 0 && deltaY == 0) return;
+
+        // Toggle movement animation state
+        moveAnimationState = !moveAnimationState;
+
+        // Determine the direction based on delta and animation state
+        currentDirection = (deltaX, deltaY, moveAnimationState) switch
         {
             (0, -1, true) => PlayerDirection.North1,
             (0, -1, false) => PlayerDirection.North2,
@@ -127,66 +245,67 @@ public static class PlayerStateHandler
             (-1, 0, false) => PlayerDirection.West2,
             (-1, -1, true) => PlayerDirection.NorthWest1,
             (-1, -1, false) => PlayerDirection.NorthWest2,
-            (0, 0, true) => PlayerDirection.Default,
-            (0, 0, false) => PlayerDirection.Default,
             _ => PlayerDirection.Default
         };
+
+        // Set state to Moving
+        SetState(PlayerState.Moving);
     }
 
     /// <summary>
-    /// Sets the player's coin collection state to true.
-    /// Resets the state after a short delay to show the coin collection effect.
+    /// Triggers the collecting state when the player collects something.
     /// </summary>
-    public static void SetCollectedCoin()
+    public static void Collect()
     {
-        hasCollectedCoin = true;
-        // Reset after a short delay to show the coin collection effect
-        Task.Delay(500).ContinueWith(_ =>
-        {
-            hasCollectedCoin = false;
-            // Refresh the texture after coin collection effect ends
-            var currentTexture = directionTextures[currentDirection];
-        });
+        SetState(PlayerState.Collecting);
     }
 
     /// <summary>
-    /// Returns the current texture based on the player's direction and game state.
-    /// If the player has collected a coin, returns the coin texture.
-    /// Otherwise, returns the texture corresponding to the current direction.
+    /// Returns the current texture based on the player's state and direction.
     /// </summary>
-    /// <returns>The current texture.</returns>
-    public static Image GetCurrentTexture()
+    /// <returns>The current texture or null if not found.</returns>
+    public static Image? GetCurrentTexture()
     {
-        // If the player has collected a coin, try to get the coin texture
-        if (hasCollectedCoin && cachedTextures.TryGetValue(PlayerDirection.Default, out var coinTexture))
+        switch (currentState)
         {
-            string coinTexturePath = TextureManager.GetTexturePath("player_coin.png");
-            try
-            {
+            case PlayerState.Spawn:
+                // Show default player.png texture
+                string playerTexturePath = TextureManager.GetTexturePath("player.png");
+                if (File.Exists(playerTexturePath))
+                {
+                    return Image.FromFile(playerTexturePath);
+                }
+                break;
+
+            case PlayerState.Collecting:
+                // Show coin collection texture
+                string coinTexturePath = TextureManager.GetTexturePath("player_coin.png");
                 if (File.Exists(coinTexturePath))
                 {
-                    var img = Image.FromFile(coinTexturePath);
-                    // Cache the coin texture
-                    if (!cachedTextures.ContainsKey(PlayerDirection.Default))
-                        cachedTextures[PlayerDirection.Default] = img;
-                    return img;
+                    return Image.FromFile(coinTexturePath);
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading coin texture: {ex.Message}");
-            }
+                break;
+
+            case PlayerState.Moving:
+                // Show movement animation texture based on current direction
+                if (cachedTextures.TryGetValue(currentDirection, out var movingTexture))
+                {
+                    return movingTexture;
+                }
+                break;
+
+            case PlayerState.Idle:
+                // Show idle animation texture (idle1 or idle2)
+                if (cachedTextures.TryGetValue(currentDirection, out var idleTexture))
+                {
+                    return idleTexture;
+                }
+                break;
         }
 
-        // Otherwise, get the current direction's texture
-        if (cachedTextures.TryGetValue(currentDirection, out var texture))
-        {
-            return texture;
-        }
-
-        // Fallback to default texture if current direction's texture is missing
-        cachedTextures.TryGetValue(PlayerDirection.Default, out var defaultTexture);
-        return defaultTexture;
+        // Fallback to default texture
+        string defaultTexturePath = TextureManager.GetTexturePath("player.png");
+        return Image.FromFile(defaultTexturePath);
     }
 
     /// <summary>
@@ -194,11 +313,29 @@ public static class PlayerStateHandler
     /// </summary>
     public static void ReloadTextures()
     {
+        // Stop timers during reload
+        idleTimer?.Stop();
+        idleAnimationTimer?.Stop();
+
+        // Clear cache and reinitialize
         cachedTextures.Clear();
         Initialize();
     }
-}
 
+    /// <summary>
+    /// Cleanup method to dispose of timers when needed.
+    /// </summary>
+    public static void Dispose()
+    {
+        idleTimer?.Stop();
+        idleTimer?.Dispose();
+        idleAnimationTimer?.Stop();
+        idleAnimationTimer?.Dispose();
+    }
+}
+#endregion
+
+#region TextureManager
 public static class TextureManager
 {
     //////////////////////////////////////
@@ -235,8 +372,8 @@ public static class TextureManager
         { "PLAYER", "player.png" }
     };
 
-    public static Image BackgroundTexture { get; private set; }
-    public static Image PlayerTexture { get; private set; }
+    public static Image? BackgroundTexture { get; private set; }
+    public static Image? PlayerTexture { get; private set; }
 
     //////////////////////////////////////
     //////////////METHODS/////////////////
@@ -324,7 +461,7 @@ public static class TextureManager
     /// Gets the player texture.
     /// </summary>
     /// <returns>The player texture.</returns>
-    public static Image GetPlayerTexture()
+    public static Image? GetPlayerTexture()
     {
         return PlayerStateHandler.GetCurrentTexture();
     }
@@ -360,3 +497,4 @@ public static class TextureManager
         ReloadTextures();
     }
 }
+#endregion
