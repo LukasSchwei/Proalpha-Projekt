@@ -44,7 +44,7 @@ public static class V
     ///////////////Algorithm Logic FasterSolve Constants/////////////
     ///////////////
 
-    public const int CHANGE_TO_UNKNOWN_MAP1 = 4; //best 4 (1221)
+    public const int CHANGE_TO_UNKNOWN_MAP1 = 4; //Map1: 4 (1221)
     public const int CHANGE_TO_UNKNOWN_MAP2 = 10; //best 10 (1359)
     public const int CHANGE_TO_UNKNOWN_MAP3 = 20; // best 20 (323)
 

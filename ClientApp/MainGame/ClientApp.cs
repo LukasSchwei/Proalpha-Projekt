@@ -44,7 +44,7 @@ public partial class ClientApp : Form
 
         // Initialize loading timer
         loadingTimer = new System.Windows.Forms.Timer();
-        loadingTimer.Interval = 50; // Update every 50ms for smooth animation
+        loadingTimer.Interval = 10; // Update every 10ms for smooth animation
         loadingTimer.Tick += (s, e) =>
         {
             if (V.isLoading)

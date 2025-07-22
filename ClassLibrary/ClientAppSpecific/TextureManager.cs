@@ -66,7 +66,7 @@ public static class PlayerStateHandler
     private static System.Timers.Timer? idleTimer;
     private static System.Timers.Timer? idleAnimationTimer;
     private static bool idleAnimationState = true; // true = idle1, false = idle2
-    private static bool moveAnimationState = false; // toggles between 1 and 2 for movement
+    private static bool moveAnimationState = false; // toggles between 1 and 2 for movement (no effect on default)
 
     public static PlayerState CurrentState => currentState;
     public static PlayerDirection CurrentDirection => currentDirection;
@@ -146,8 +146,8 @@ public static class PlayerStateHandler
         };
         idleTimer.AutoReset = false; // Only fire once
 
-        // Timer for idle animation (switches between idle1 and idle2 every 1000ms)
-        idleAnimationTimer = new System.Timers.Timer(1000);
+        // Timer for idle animation (switches between idle1 and idle2 every 2s)
+        idleAnimationTimer = new System.Timers.Timer(2000);
         idleAnimationTimer.Elapsed += (sender, e) =>
         {
             // Only animate if we're in idle state
