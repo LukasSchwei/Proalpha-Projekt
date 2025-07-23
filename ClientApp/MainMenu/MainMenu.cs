@@ -6,6 +6,7 @@ using ClassLibrary.GlobalVariables;
 using ClassLibrary.TextureManager;
 
 namespace ClientApp;
+
 public partial class MainMenu : Form
 {
     private readonly Button btnStart;
@@ -153,7 +154,7 @@ public partial class MainMenu : Form
 
     private void ChangeSkin(object? sender, EventArgs e)
     {
-        // cycle through 1…5
+        // cycle through 1…4
         int next = GV.CurrentSkin % 4 + 1;
         TextureManager.ChangeSkin(next);
 
