@@ -4,6 +4,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
+using System.Configuration;
+using System.Collections.Specialized;
 using ClassLibrary.Coordinates;
 using ClientApp.Communication;
 using ClassLibrary.GlobalVariables;
@@ -15,7 +18,7 @@ using ClassLibrary.Algorithm.AStar;
 using ClassLibrary.MapSaver;
 using ClassLibrary.Variables;
 using ClassLibrary.Map;
-using System.IO;
+using Microsoft.JSInterop.Infrastructure;
 
 namespace ClientApp;
 
@@ -419,32 +422,44 @@ public partial class ClientApp : Form
         int ignoreUnknownOnX;
         int ignoreUnknownOnY;
         int finishCoinCounter;
-        int lookThreashold;
+        int lookThreshold;
+        // Load configuration settings based on the current map from an xml file
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
+        AppSettingsSection appSettingSection = (AppSettingsSection)config.GetSection(config.AppSettings.SectionInformation.Name);
         switch (GV.CurrentMap)
         {
+            case GV.MAP_4:
+                changeToUnknown = Convert.ToInt32(appSettingSection.Settings["ChangeToUnknownMap4"].Value);
+                tryFinish = Convert.ToInt32(appSettingSection.Settings["TryFinishMap4"].Value);
+                ignoreUnknownOnX = Convert.ToInt32(appSettingSection.Settings["IgnoreUnknownXMap4"].Value);
+                ignoreUnknownOnY = Convert.ToInt32(appSettingSection.Settings["IgnoreUnknownYMap4"].Value);
+                finishCoinCounter = Convert.ToInt32(appSettingSection.Settings["FinishCoinCounterMap4"].Value);
+                lookThreshold = Convert.ToInt32(appSettingSection.Settings["LookThresholdMap4"].Value);
+                break;
             case GV.MAP_3:
-                changeToUnknown = V.CHANGE_TO_UNKNOWN_MAP3;
-                tryFinish = V.TRY_FINISH_MAP3;
-                ignoreUnknownOnX = V.IGNORE_UNKNOWN_ON_X_MAP3;
-                ignoreUnknownOnY = V.IGNORE_UNKNOWN_ON_Y_MAP3;
-                finishCoinCounter = V.FINISH_COIN_COUNTER_MAP3;
-                lookThreashold = V.LOOK_THREASHOLD_MAP3;
+                changeToUnknown = Convert.ToInt32(appSettingSection.Settings["ChangeToUnknownMap3"].Value);
+                tryFinish = Convert.ToInt32(appSettingSection.Settings["TryFinishMap3"].Value);
+                ignoreUnknownOnX = Convert.ToInt32(appSettingSection.Settings["IgnoreUnknownXMap3"].Value);
+                ignoreUnknownOnY = Convert.ToInt32(appSettingSection.Settings["IgnoreUnknownYMap3"].Value);
+                finishCoinCounter = Convert.ToInt32(appSettingSection.Settings["FinishCoinCounterMap3"].Value);
+                lookThreshold = Convert.ToInt32(appSettingSection.Settings["LookThresholdMap3"].Value);
                 break;
             case GV.MAP_2:
-                changeToUnknown = V.CHANGE_TO_UNKNOWN_MAP2;
-                tryFinish = V.TRY_FINISH_MAP2;
-                ignoreUnknownOnX = V.IGNORE_UNKNOWN_ON_X_MAP2;
-                ignoreUnknownOnY = V.IGNORE_UNKNOWN_ON_Y_MAP2;
-                finishCoinCounter = V.FINISH_COIN_COUNTER_MAP2;
-                lookThreashold = V.LOOK_THREASHOLD_MAP2;
+                changeToUnknown = Convert.ToInt32(appSettingSection.Settings["ChangeToUnknownMap2"].Value);
+                tryFinish = Convert.ToInt32(appSettingSection.Settings["TryFinishMap2"].Value);
+                ignoreUnknownOnX = Convert.ToInt32(appSettingSection.Settings["IgnoreUnknownXMap2"].Value);
+                ignoreUnknownOnY = Convert.ToInt32(appSettingSection.Settings["IgnoreUnknownYMap2"].Value);
+                finishCoinCounter = Convert.ToInt32(appSettingSection.Settings["FinishCoinCounterMap2"].Value);
+                lookThreshold = Convert.ToInt32(appSettingSection.Settings["LookThresholdMap2"].Value);
                 break;
             case GV.MAP_1:
-                changeToUnknown = V.CHANGE_TO_UNKNOWN_MAP1;
-                tryFinish = V.TRY_FINISH_MAP1;
-                ignoreUnknownOnX = V.IGNORE_UNKNOWN_ON_X_MAP1;
-                ignoreUnknownOnY = V.IGNORE_UNKNOWN_ON_Y_MAP1;
-                finishCoinCounter = V.FINISH_COIN_COUNTER_MAP1;
-                lookThreashold = V.LOOK_THREASHOLD_MAP1;
+                changeToUnknown = Convert.ToInt32(appSettingSection.Settings["ChangeToUnknownMap1"].Value);
+                tryFinish = Convert.ToInt32(appSettingSection.Settings["TryFinishMap1"].Value);
+                ignoreUnknownOnX = Convert.ToInt32(appSettingSection.Settings["IgnoreUnknownXMap1"].Value);
+                ignoreUnknownOnY = Convert.ToInt32(appSettingSection.Settings["IgnoreUnknownYMap1"].Value);
+                finishCoinCounter = Convert.ToInt32(appSettingSection.Settings["FinishCoinCounterMap1"].Value);
+                lookThreshold = Convert.ToInt32(appSettingSection.Settings["LookThresholdMap1"].Value);
                 break;
             default:
                 changeToUnknown = 20;
@@ -452,9 +467,17 @@ public partial class ClientApp : Form
                 ignoreUnknownOnX = 0;
                 ignoreUnknownOnY = 0;
                 finishCoinCounter = 999;
-                lookThreashold = 4;
+                lookThreshold = 4;
                 break;
         }
+        Dialog.CreateGenericDialog("Algorithmic Solve",
+            $"Change to Unknown: {changeToUnknown}, " +
+            $"Try Finish: {tryFinish}, " +
+            $"Ignore Unknown X: {ignoreUnknownOnX},\n" +
+            $"Ignore Unknown Y: {ignoreUnknownOnY}, " +
+            $"Finish Coin Counter: {finishCoinCounter}, " +
+            $"Look Threshold: {lookThreshold}",
+            "Ok", owner);
         await Look();
         int coinCollectedCounter = 0;
         while (V.map.Any(obj => obj.Value.Type == "COLLECTIBLE_COIN") ||
@@ -496,7 +519,7 @@ public partial class ClientApp : Form
                 {
                     lookLock++;
                 }
-                if (lookLock < lookThreashold)
+                if (lookLock < lookThreshold)
                 {
                     await Look();
                 }
