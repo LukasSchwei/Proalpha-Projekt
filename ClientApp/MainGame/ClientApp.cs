@@ -87,7 +87,7 @@ public partial class ClientApp : Form
         V.currentPosition = new CurrentPosition() { AbsoluteX = 0, AbsoluteY = 0 };
 
         // Start the login process when the form loads
-        this.Load += async (sender, e) => await Login();
+        this.Load += async (sender, e) => await Login(GV.CurrentMap);
         owner = this;
         V.actioncounter = 0;
     }
@@ -258,7 +258,7 @@ public partial class ClientApp : Form
     /// <summary>
     /// Logs the player in and initializes the game.
     /// </summary>
-    private async Task Login()
+    private async Task Login(string Map)
     {
         // Reset loading state
         lock (V.loadingLock)
@@ -280,7 +280,7 @@ public partial class ClientApp : Form
             ClientAPICom clientAPICom = new ClientAPICom();
 
             // Start the login process
-            var loginTask = clientAPICom.LoginAsync();
+            var loginTask = clientAPICom.LoginAsync(Map);
 
             // Wait for either the login to complete or the minimum delay
             var delayTask = Task.Delay(V.LOGIN_DELAY);
@@ -370,7 +370,7 @@ public partial class ClientApp : Form
         {
             if (GV.finished)
             {
-                bool result = Dialog.CreateQuitDialog("Game Finished", $"You have finished the game in {V.actioncounter} actions.", "Exit", owner);
+                bool result = Dialog.CreateQuitDialog("Game Finished", $"You have finished the game in {V.actioncounter} actions. And it took you a total time of {DateTime.Now - V.loginTime}", "Exit", owner);
                 if (result)
                 {
                     Application.Restart();
@@ -470,14 +470,7 @@ public partial class ClientApp : Form
                 lookThreshold = 4;
                 break;
         }
-        Dialog.CreateGenericDialog("Algorithmic Solve",
-            $"Change to Unknown: {changeToUnknown}, " +
-            $"Try Finish: {tryFinish}, " +
-            $"Ignore Unknown X: {ignoreUnknownOnX},\n" +
-            $"Ignore Unknown Y: {ignoreUnknownOnY}, " +
-            $"Finish Coin Counter: {finishCoinCounter}, " +
-            $"Look Threshold: {lookThreshold}",
-            "Ok", owner);
+        //# Dialog.CreateGenericDialog("Algorithmic Solve", $"Change to Unknown: {changeToUnknown}, " + $"Try Finish: {tryFinish}, " + $"Ignore Unknown X: {ignoreUnknownOnX},\n" + $"Ignore Unknown Y: {ignoreUnknownOnY}, " + "Finish Coin Counter: {finishCoinCounter}, " + $"Look Threshold: {lookThreshold}", "Ok", owner);
         await Look();
         int coinCollectedCounter = 0;
         while (V.map.Any(obj => obj.Value.Type == "COLLECTIBLE_COIN") ||

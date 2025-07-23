@@ -7,6 +7,7 @@ using ClassLibrary.Responses;
 using ClassLibrary.GlobalVariables;
 
 namespace ClientApp.Communication;
+
 public class ClientAPICom
 {
     private readonly HttpClient httpClient;
@@ -25,11 +26,11 @@ public class ClientAPICom
     /// <summary>
     /// Logs in the user and returns the GameID.
     /// </summary>
-    public async Task<string> LoginAsync()
+    public async Task<string> LoginAsync(string Map)
     {
         try
         {
-            HttpResponseMessage response = await httpClient.GetAsync("/API/login");
+            HttpResponseMessage response = await httpClient.GetAsync($"/API/login?Map={Map}");
             string content = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)

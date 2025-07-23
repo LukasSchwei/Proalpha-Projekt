@@ -1,6 +1,6 @@
-+ Statistiken zum Schluss
-+ Button for switching maps
-+ Minimap
-+ Tile Culling
-+ Bessere (mehr frames) Idle animation
-+ neuer Skin
+- Bessere (mehr frames) Idle animation
+- neuer Skin
+- Algorithm not walking into walls when finding path to unknown
+- Minimap
+- Tile Culling
+- Change in MainMenu the MAP_TEST to MAP_4 when available in ChangeMap

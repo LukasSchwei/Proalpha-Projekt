@@ -39,6 +39,7 @@ namespace API
     }
 
     ////////////////////LOGIN////////////////////
+    #region Login
 
     /// <summary>
     /// Main API controller for game operations.
@@ -53,7 +54,7 @@ namespace API
         /// </summary>
         /// <returns>ActionResult containing the GameID if successful, or error information if failed</returns>
         [HttpGet("login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(string Map)
         {
             // Reset coordinate system and clear map for new game
             CoordinateConverter.SetPlayerPosition(0, 0);
@@ -64,7 +65,7 @@ namespace API
             HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri($"http://{GV.Host}:{GV.Port}/PASProject/web/NewGame/Map/{GV.CurrentMap}/User/{GV.User}"),
+                RequestUri = new Uri($"http://{GV.Host}:{GV.Port}/PASProject/web/NewGame/Map/{Map ?? GV.CurrentMap}/User/{GV.User}"),
                 Content = new StringContent("{\"hashedPassword\":\"" + GV.HashedPassword + "\"}")
                 {
                     Headers =
@@ -126,7 +127,9 @@ namespace API
             }
         }
 
+        #endregion
         ////////////////////QUIT////////////////////
+        #region Quit
 
         /// <summary>
         /// Terminates the current game session.
@@ -174,7 +177,9 @@ namespace API
             });
         }
 
+        #endregion
         //////////////////////FINISH////////////////////
+        #region Finish
 
         /// <summary>
         /// Marks the current game as finished
@@ -285,7 +290,9 @@ namespace API
             }
         }
 
+        #endregion
         //////////////////////LOOK////////////////////
+        #region Look
 
         /// <summary>
         /// Retrieves information about objects in the surrounding area.
@@ -395,7 +402,9 @@ namespace API
             }
         }
 
+        #endregion
         /////////////////////////COLLECT////////////////////
+        #region Collect
 
         /// <summary>
         /// Attempts to collect an item at the player's current position.
@@ -443,7 +452,9 @@ namespace API
             });
         }
 
+        #endregion
         ///////////////////////MOVE////////////////////
+        #region Move
 
         /// <summary>
         /// Attempts to move the player by the specified delta coordinates.
@@ -557,3 +568,4 @@ namespace API
         }
     }
 }
+#endregion

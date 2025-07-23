@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using ClassLibrary.Dialog;
 using ClassLibrary.GlobalVariables;
 using ClassLibrary.TextureManager;
 
@@ -12,8 +13,11 @@ public partial class MainMenu : Form
     private readonly Button btnStart;
     private readonly Button btnControls;
     private readonly Button btnChangeSkin;
+    private readonly Button btnChangeMap;
     private readonly Button btnQuit;
     private readonly FlowLayoutPanel buttonPanel;
+
+    private int map = 1;
 
     private readonly Image? backgroundImage;
 
@@ -92,6 +96,9 @@ public partial class MainMenu : Form
         btnChangeSkin = CreateMenuButton("Change Skin");
         btnChangeSkin.Click += ChangeSkin;
 
+        btnChangeMap = CreateMenuButton("Change Map");
+        btnChangeMap.Click += ChangeMap;
+
         btnQuit = CreateMenuButton("Quit");
         btnQuit.Click += (s, e) => Application.Exit();
 
@@ -104,12 +111,13 @@ public partial class MainMenu : Form
             AutoScroll = false,
             Padding = new Padding(0)
         };
-        buttonPanel.Controls.AddRange(new Control[] { btnStart, btnControls, btnChangeSkin, btnQuit });
+        buttonPanel.Controls.AddRange(new Control[] { btnStart, btnControls, btnChangeSkin, btnChangeMap, btnQuit });
 
         // smaller vertical spacing
         btnStart.Margin = new Padding(0, 0, 0, 10);
         btnControls.Margin = new Padding(0, 0, 0, 10);
         btnChangeSkin.Margin = new Padding(0, 0, 0, 10);
+        btnChangeMap.Margin = new Padding(0, 0, 0, 10);
         btnQuit.Margin = new Padding(0);
 
         this.Controls.Add(buttonPanel);
@@ -163,6 +171,36 @@ public partial class MainMenu : Form
 
         // invalidate the form to update the UI
         this.Invalidate();
+    }
+
+    private void ChangeMap(object? sender, EventArgs e)
+    {
+        //# Dialog.CreateGenericDialog("Change Map not available", "This Feature is under Construction right now", "OK", this);
+        //# return;
+        map++;
+        if (map > 4) map = 1; // cycle through maps 1 to 4
+        switch (map)
+        {
+            case 1:
+                GV.CurrentMap = GV.MAP_1;
+                btnChangeMap.Text = "Map 1";
+                break;
+            case 2:
+                GV.CurrentMap = GV.MAP_2;
+                btnChangeMap.Text = "Map 2";
+                break;
+            case 3:
+                GV.CurrentMap = GV.MAP_3;
+                btnChangeMap.Text = "Map 3";
+                break;
+            case 4:
+                GV.CurrentMap = GV.MAP_TEST;  //TODO: change to MAP_4 when available
+                btnChangeMap.Text = "Map 4";
+                break;
+            default:
+                GV.CurrentMap = GV.MAP_1; // fallback
+                break;
+        }
     }
 
     // anti-flicker: ensure windows uses composited style
