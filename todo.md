@@ -1,6 +1,6 @@
-- Bessere (mehr frames) Idle animation
 - neuer Skin
 - Algorithm not walking into walls when finding path to unknown
+- Key to switch between full map vision and following player
 - Minimap
 - Tile Culling
 - Change in MainMenu the MAP_TEST to MAP_4 when available in ChangeMap
