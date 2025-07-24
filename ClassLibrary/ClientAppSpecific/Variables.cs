@@ -36,9 +36,9 @@ public static class V
     ///////////////Zoom Variables/////////////
     ///////////////
 
-    public static float zoomLevel = 4.0f;
-    public const float ZOOM_MIN = 0.5f;
-    public const float ZOOM_MAX = 10.0f;
+    public static float zoomLevel = 3.0f;
+    public const float ZOOM_MIN = 0.2f;
+    public const float ZOOM_MAX = 6.0f;
     public const float ZOOM_SPEED = 0.1f;
 
     ///////////////
