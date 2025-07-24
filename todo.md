@@ -1,6 +1,13 @@
-- neuer Skin
-- Algorithm not walking into walls when finding path to unknown
-- Key to switch between full map vision and following player
-- Minimap
-- Tile Culling
-- Change in MainMenu the MAP_TEST to MAP_4 when available in ChangeMap
+- Heute:
+  - neuer Skin (König?)
+
+* Freitag:
+  - Minimap???????
+
+- Montag:
+  - Tile Culling????????
+  - Escape Menu?????
+  - Keybinds????????
+
+* Dienstag:
+  - Change in MainMenu the MAP_TEST to MAP_4 when available in ChangeMap

@@ -31,6 +31,7 @@ public partial class ClientApp : Form
     }
     public static IWin32Window owner;
     public static System.Windows.Forms.Timer loadingTimer;
+    public static bool centerOnPlayer = true;
 
     #region Constructor
 
@@ -71,7 +72,7 @@ public partial class ClientApp : Form
         this.BackColor = Color.Black;
         this.Text = "MoleThief";
 
-        this.Resize += (s, e) => CenterOnPlayer();
+        //# this.Resize += (s, e) => CenterOnPlayer();
         this.KeyPreview = true;
         this.KeyDown += ClientApp_KeyDown;
         this.WindowState = FormWindowState.Maximized;
@@ -82,7 +83,10 @@ public partial class ClientApp : Form
         // Set up the redraw trigger for the state machine
         PlayerStateHandler.TriggerRedraw = () => this.Invalidate();
 
-        CenterOnPlayer();
+        if (centerOnPlayer)
+            CenterOnPlayer(); // Center on player by default
+        else
+            CenterOnMap(); // Center on map if not centered on player
 
         V.currentPosition = new CurrentPosition() { AbsoluteX = 0, AbsoluteY = 0 };
 
@@ -115,34 +119,28 @@ public partial class ClientApp : Form
     {
         if (DateTime.Now - V.loginTime < TimeSpan.FromMilliseconds(V.LOGIN_DELAY)) return;
 
-        if (V.isMoving) return; // Skip if already processing a move
-
-        bool moved = false;
-
         switch (e.KeyCode)
         {
-            case Keys.W: moved = true; await Move(0, -1); break;
-            case Keys.A: moved = true; await Move(-1, 0); break;
-            case Keys.S: moved = true; await Move(0, 1); break;
-            case Keys.D: moved = true; await Move(1, 0); break;
-            case Keys.Q: moved = true; await Move(-1, -1); break;
-            case Keys.E: moved = true; await Move(1, -1); break;
-            case Keys.Y: moved = true; await Move(-1, 1); break;
-            case Keys.X: moved = true; await Move(1, 1); break;
+            case Keys.W: if (V.isMoving) return; await Move(0, -1); break;
+            case Keys.A: if (V.isMoving) return; await Move(-1, 0); break;
+            case Keys.S: if (V.isMoving) return; await Move(0, 1); break;
+            case Keys.D: if (V.isMoving) return; await Move(1, 0); break;
+            case Keys.Q: if (V.isMoving) return; await Move(-1, -1); break;
+            case Keys.E: if (V.isMoving) return; await Move(1, -1); break;
+            case Keys.Y: if (V.isMoving) return; await Move(-1, 1); break;
+            case Keys.X: if (V.isMoving) return; await Move(1, 1); break;
+            case Keys.F1: if (V.isAlgorithmRunning) return; await AlgorithmicSolve(V.map, Algorithm.BFS); break;
+            case Keys.F2: if (V.isAlgorithmRunning) return; await AlgorithmicSolve(V.map, Algorithm.AStar); break;
+            case Keys.F3: if (V.isAlgorithmRunning) return; await RevealWholeMap(); break;
             case Keys.L: await Look(); break;
             case Keys.C: await Collect(); break;
             case Keys.G: await Quit(); break;
             case Keys.F: await Finish(); break;
-            case Keys.F1: await AlgorithmicSolve(V.map, Algorithm.BFS); break;
-            case Keys.F2: await AlgorithmicSolve(V.map, Algorithm.AStar); break;
-            case Keys.F3: await RevealWholeMap(); break;
+            case Keys.R: centerOnPlayer = !centerOnPlayer; CenterOnMap(); break;
                 //MAPSAVINGCHEAT NICHT BENUTZEN!
                 //case Keys.F8: await AlgorithmicSolveBFS(MapSavingCheat.ReadMap()); break;
                 //case Keys.F12: await DEBUGshowActionCounter(); break;
         }
-
-        if (moved)
-            Invalidate();
     }
 
     /// <summary>
@@ -159,6 +157,28 @@ public partial class ClientApp : Form
             // Calculate the offset needed to center the player
             V.offsetX = centerX - (V.currentPosition.AbsoluteX * V.baseCellSize * V.zoomLevel);
             V.offsetY = centerY - (V.currentPosition.AbsoluteY * V.baseCellSize * V.zoomLevel);
+
+            Invalidate();
+        }
+    }
+
+    /// <summary>
+    /// Centers the view on the middle of the map (INFO_STARTPOS).
+    /// </summary>
+    private void CenterOnMap()
+    {
+        // Find the INFO_STARTPOS in the map
+        var startPos = V.map.Values.FirstOrDefault(obj => obj.Type == "INFO_STARTPOS");
+
+        if (startPos != null)
+        {
+            // Calculate the center position of the screen
+            int centerX = this.ClientSize.Width / 2;
+            int centerY = this.ClientSize.Height / 2;
+
+            // Calculate the offset needed to center the map on the start position
+            V.offsetX = centerX - (startPos.AbsoluteX * V.baseCellSize * V.zoomLevel);
+            V.offsetY = centerY - (startPos.AbsoluteY * V.baseCellSize * V.zoomLevel);
 
             Invalidate();
         }
@@ -183,11 +203,19 @@ public partial class ClientApp : Form
         {
             // Get the player's position in world coordinates
             var playerPos = V.currentPosition ?? V.lastValidPosition;
-            if (playerPos != null)
+            var startPos = V.map.Values.FirstOrDefault(obj => obj.Type == "INFO_STARTPOS");
+            if ((playerPos != null && centerOnPlayer) || (startPos != null && !centerOnPlayer))
             {
-                // Calculate the offset needed to keep the player at the same screen position
-                V.offsetX = (this.ClientSize.Width / 2) - (playerPos.AbsoluteX * V.baseCellSize * V.zoomLevel);
-                V.offsetY = (this.ClientSize.Height / 2) - (playerPos.AbsoluteY * V.baseCellSize * V.zoomLevel);
+                if (centerOnPlayer)
+                {
+                    V.offsetX = (this.ClientSize.Width / 2) - (playerPos.AbsoluteX * V.baseCellSize * V.zoomLevel);
+                    V.offsetY = (this.ClientSize.Height / 2) - (playerPos.AbsoluteY * V.baseCellSize * V.zoomLevel);
+                }
+                else
+                {
+                    V.offsetX = (this.ClientSize.Width / 2) - (startPos.AbsoluteX * V.baseCellSize * V.zoomLevel);
+                    V.offsetY = (this.ClientSize.Height / 2) - (startPos.AbsoluteY * V.baseCellSize * V.zoomLevel);
+                }
 
                 Invalidate();
             }
@@ -200,7 +228,10 @@ public partial class ClientApp : Form
     protected override void OnResize(EventArgs e)
     {
         base.OnResize(e);
-        CenterOnPlayer(); // Keep player centered when window is resized
+        if (centerOnPlayer)
+            CenterOnPlayer(); // Center player when window is resized
+        else
+            CenterOnMap(); // Center map when window is resized
     }
 
     #endregion
@@ -233,7 +264,10 @@ public partial class ClientApp : Form
                 {
                     V.currentPosition = response.CurrentPosition;
                     V.lastValidPosition = response.CurrentPosition;
-                    CenterOnPlayer(); // Center camera on player after move
+                    if (centerOnPlayer)
+                        CenterOnPlayer(); // Center camera on player after move
+                    else
+                        CenterOnMap(); // Center camera on map after move
                 }
 
                 // Always update the map with the latest objects
@@ -417,6 +451,7 @@ public partial class ClientApp : Form
     /// <param name="algorithm">The algorithm to use.</param>
     private async Task AlgorithmicSolve(Dictionary<(int x, int y), AbsoluteObject> map, Algorithm algorithm)
     {
+        V.isAlgorithmRunning = true;
         int changeToUnknown;
         int tryFinish;
         int ignoreUnknownOnX;
@@ -542,7 +577,7 @@ public partial class ClientApp : Form
                     unknownPath = BFSPathfinding.FindPathToUnknown(V.map, V.currentPosition, V.globalMapMinX + ignoreUnknownOnX,
                     V.globalMapMinY + ignoreUnknownOnY, V.globalMapMaxX - ignoreUnknownOnX, V.globalMapMaxY - ignoreUnknownOnY, owner);
                 }
-                if (unknownPath.Count < path.Count)
+                if (unknownPath != null && unknownPath.Count < path.Count)
                 {
                     path = null;
                 }
@@ -639,6 +674,7 @@ public partial class ClientApp : Form
         {
             return;
         }
+        V.isAlgorithmRunning = false;
     }
 
     /// <summary>

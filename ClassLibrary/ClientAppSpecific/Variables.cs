@@ -28,6 +28,7 @@ public static class V
     public static int globalMapMaxY = 999;
 
     public static bool isMoving = false;
+    public static bool isAlgorithmRunning = false;
 
     public static int actioncounter;
 
@@ -37,7 +38,7 @@ public static class V
 
     public static float zoomLevel = 4.0f;
     public const float ZOOM_MIN = 0.5f;
-    public const float ZOOM_MAX = 6.0f;
+    public const float ZOOM_MAX = 10.0f;
     public const float ZOOM_SPEED = 0.1f;
 
     ///////////////

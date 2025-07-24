@@ -153,8 +153,9 @@ public partial class MainMenu : Form
             "C - Collect\n" +
             "F - Finish\n" +
             "G - Back to Main Menu\n" +
+            "R - Center on Player\n" +
             "F1 - Algorithmic BFS Solve\n" +
-            "F2 - Algorithmic A* Solve (WARNING: slow)\n" +
+            "F2 - Algorithmic A* Solve (WARNING: slower)\n" +
             "F3 - Reveal whole map";
 
         MessageBox.Show(controlsText, "Game Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);

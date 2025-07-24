@@ -8,6 +8,7 @@ using ClassLibrary.Dialog;
 using ClassLibrary.Responses;
 
 namespace ClassLibrary.Algorithm.BFS;
+
 public static class BFSPathfinding
 {
     /// <summary>
@@ -39,7 +40,7 @@ public static class BFSPathfinding
         Func<(int x, int y), bool> isWalkable = pos =>
             !IsObstacle(objects, pos.x, pos.y, globalMapMinX, globalMapMinY, globalMapMaxX, globalMapMaxY);
 
-        return BfsPath(start, isTarget, isWalkable);
+        return BfsPath(start, isTarget, isWalkable/*, true*/);
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ public static class BFSPathfinding
                 !IsObstacle(objects, pos.x, pos.y, globalMapMinX, globalMapMinY, globalMapMaxX, globalMapMaxY)
             );
 
-        return BfsPath(start, isTarget, isWalkable);
+        return BfsPath(start, isTarget, isWalkable/*, false*/);
     }
 
     /// <summary>
@@ -100,7 +101,7 @@ public static class BFSPathfinding
     public static List<(int x, int y)>? BfsPath(
         (int x, int y) start,
         Func<(int x, int y), bool> isTarget,
-        Func<(int x, int y), bool> isWalkable)
+        Func<(int x, int y), bool> isWalkable/*, bool goToEnd*/)
     {
         // FIFO queue holding frontier coordinates that still need to be explored.
         Queue<(int x, int y)> queue = new();
@@ -118,7 +119,7 @@ public static class BFSPathfinding
             var current = queue.Dequeue();
             if (isTarget(current))
             {
-                return ReconstructPath(start, current, parent);
+                return ReconstructPath(start, current, parent/*, goToEnd*/);
             }
 
             // Explore neighbours of the current coordinate.
@@ -140,7 +141,7 @@ public static class BFSPathfinding
     /// Reconstructs the list of relative moves from <paramref name="start"/> to <paramref name="end"/>
     /// using the supplied parent dictionary.
     /// </summary>
-    private static List<(int x, int y)>? ReconstructPath((int x, int y) start, (int x, int y) end, Dictionary<(int x, int y), (int x, int y)> parent)
+    private static List<(int x, int y)>? ReconstructPath((int x, int y) start, (int x, int y) end, Dictionary<(int x, int y), (int x, int y)> parent/*, bool goToEnd*/)
     {
         List<(int x, int y)> moves = new();
         var current = end;
@@ -150,6 +151,8 @@ public static class BFSPathfinding
             moves.Add((current.x - prev.x, current.y - prev.y)); // store relative move (dx, dy)
             current = prev;
         }
+        //# if (!goToEnd)
+        //# moves.Remove(moves.Last()); // remove the last move if the player searches for unknown so the player don't end up running into a wall
         moves.Reverse();
         return moves.Count == 0 ? null : moves;
     }
