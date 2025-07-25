@@ -3,6 +3,9 @@
 
 * Montag:
   - Escape Menu?????
+  - Fix F3 (put in delay between moves)
+  - Map Spectator Mode (Die ausgewählte Map wird dadurch dass ich sie in saves gespeichert hab einfach angezeigt)
+  - Skin unlock System (Jeder Win ein neuer Skin außer König der erst ab 10 Wins)
 
 - Dienstag:
   - Change in MainMenu the MAP_TEST to MAP_4 when available in ChangeMap
