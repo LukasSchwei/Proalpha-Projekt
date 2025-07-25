@@ -694,6 +694,7 @@ public partial class ClientApp : Form
             {
                 await Move(step.x, step.y);
                 Invalidate();
+                Thread.Sleep(50);
             }
         }
         Dialog.CreateGenericDialog("Map revealed", "Whole Map revealed. On this map are " + V.map.Count(obj => obj.Value.Type == "COLLECTIBLE_COIN") + " coins.", "OK", this);
