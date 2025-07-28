@@ -19,6 +19,7 @@ using ClassLibrary.MapSaver;
 using ClassLibrary.Variables;
 using ClassLibrary.Map;
 using Microsoft.JSInterop.Infrastructure;
+using ClassLibrary.Wins;
 
 namespace ClientApp;
 
@@ -311,6 +312,7 @@ public partial class ClientApp : Form
             V.actioncounter = 0;
             GV.finished = false;
             V.map.Clear();
+            //# V.map = MapSavingCheat.ReadMap(); // Load the map from the cheat file
             ClientAPICom clientAPICom = new ClientAPICom();
 
             // Start the login process
@@ -404,9 +406,20 @@ public partial class ClientApp : Form
         {
             if (GV.finished)
             {
-                bool result = Dialog.CreateQuitDialog("Game Finished", $"You have finished the game in {V.actioncounter} actions. And it took you a total time of {DateTime.Now - V.loginTime}", "Exit", owner);
+                int winNumber = Wins.Read() + 1;
+                bool result = Dialog.CreateQuitDialog("Game Finished", $"You have finished the game in {V.actioncounter} actions.\n It took you a total time of {DateTime.Now - V.loginTime}.\n This is your {GetOrdinalSuffix(winNumber)} win.", "Exit", owner);
                 if (result)
                 {
+                    //# Wins.Save(0);
+                    if (Wins.Read() > 0)
+                    {
+                        Wins.Save(Wins.Read() + 1);
+                    }
+                    else
+                    {
+                        Wins.Save(1);
+                    }
+
                     Application.Restart();
                 }
             }
@@ -436,6 +449,25 @@ public partial class ClientApp : Form
             await Map.Update(new List<AbsoluteObject>() { new AbsoluteObject() { AbsoluteX = V.currentPosition.AbsoluteX, AbsoluteY = V.currentPosition.AbsoluteY, Type = "NONE" } });
             Invalidate(); // Redraw to show updated player texture
         }
+    }
+
+    /// <summary>
+    /// Adds ordinal suffix to a number (st, nd, rd, th).
+    /// </summary>
+    private string GetOrdinalSuffix(int number)
+    {
+        if (number % 100 >= 11 && number % 100 <= 13)
+        {
+            return number + "th";
+        }
+
+        return (number % 10) switch
+        {
+            1 => number + "st",
+            2 => number + "nd",
+            3 => number + "rd",
+            _ => number + "th"
+        };
     }
 
     #endregion
@@ -682,6 +714,7 @@ public partial class ClientApp : Form
     /// </summary>
     private async Task RevealWholeMap()
     {
+        V.isAlgorithmRunning = true;
         await Look();
         while (BFSPathfinding.FindPathToUnknown(V.map, V.currentPosition, V.globalMapMinX, V.globalMapMinY, V.globalMapMaxX, V.globalMapMaxY, owner) != null)
         {

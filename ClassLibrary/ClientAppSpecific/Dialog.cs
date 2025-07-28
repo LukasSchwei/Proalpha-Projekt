@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace ClassLibrary.Dialog;
+
 public static class Dialog
 {
     /// <summary>
@@ -98,7 +99,7 @@ public static class Dialog
 
             // Set dialog dimensions
             quitDialog.Width = requiredWidth;
-            quitDialog.Height = 150;
+            quitDialog.Height = 160;
 
             var messageLabel = new Label()
             {
@@ -115,7 +116,7 @@ public static class Dialog
                 Left = (quitDialog.Width - 100) / 2, // Center the button
                 Width = 100,
                 Height = 40,
-                Top = 60,
+                Top = 70,
                 DialogResult = DialogResult.OK
             };
 

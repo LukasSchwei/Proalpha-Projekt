@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using ClassLibrary.Dialog;
 using ClassLibrary.GlobalVariables;
 using ClassLibrary.TextureManager;
+using ClassLibrary.Wins;
 
 namespace ClientApp;
 
@@ -14,10 +15,12 @@ public partial class MainMenu : Form
     private readonly Button btnControls;
     private readonly Button btnChangeSkin;
     private readonly Button btnChangeMap;
+    private readonly Button btnPreviewMap;
     private readonly Button btnQuit;
     private readonly FlowLayoutPanel buttonPanel;
 
     private int map = 1;
+    private int skin = 1;
 
     private readonly Image? backgroundImage;
 
@@ -99,6 +102,9 @@ public partial class MainMenu : Form
         btnChangeMap = CreateMenuButton("Change Map");
         btnChangeMap.Click += ChangeMap;
 
+        btnPreviewMap = CreateMenuButton("Preview Map");
+        btnPreviewMap.Click += PreviewMap;
+
         btnQuit = CreateMenuButton("Quit");
         btnQuit.Click += (s, e) => Application.Exit();
 
@@ -111,13 +117,14 @@ public partial class MainMenu : Form
             AutoScroll = false,
             Padding = new Padding(0)
         };
-        buttonPanel.Controls.AddRange(new Control[] { btnStart, btnControls, btnChangeSkin, btnChangeMap, btnQuit });
+        buttonPanel.Controls.AddRange(new Control[] { btnStart, btnControls, btnChangeSkin, btnChangeMap, btnPreviewMap, btnQuit });
 
         // smaller vertical spacing
         btnStart.Margin = new Padding(0, 0, 0, 10);
         btnControls.Margin = new Padding(0, 0, 0, 10);
         btnChangeSkin.Margin = new Padding(0, 0, 0, 10);
         btnChangeMap.Margin = new Padding(0, 0, 0, 10);
+        btnPreviewMap.Margin = new Padding(0, 0, 0, 10);
         btnQuit.Margin = new Padding(0);
 
         this.Controls.Add(buttonPanel);
@@ -163,12 +170,21 @@ public partial class MainMenu : Form
 
     private void ChangeSkin(object? sender, EventArgs e)
     {
-        // cycle through 1…5
-        int next = GV.CurrentSkin % 5 + 1;
-        TextureManager.ChangeSkin(next);
+        int skinCount = Wins.Read() switch
+        {
+            < 1 => 1, // at least one skin available
+            1 or 2 => 2, // 1 or 2 wins unlocks 2 skins
+            3 or 4 => 3, // 3 or 4 wins unlocks 3 skins
+            > 4 and < 10 => 4, // 5 to 9 wins unlocks 4 skins
+            > 9 => 5 // 10 or more wins unlocks all 5 skins
+        };
+        skin++;
+        if (skin > skinCount) skin = 1;
+
+        TextureManager.ChangeSkin(skin);
 
         // provide quick feedback in button text
-        btnChangeSkin.Text = $"Skin {next}";
+        btnChangeSkin.Text = $"Skin {skin}";
 
         // invalidate the form to update the UI
         this.Invalidate();
@@ -201,6 +217,36 @@ public partial class MainMenu : Form
             default:
                 GV.CurrentMap = GV.MAP_1; // fallback
                 break;
+        }
+    }
+
+    private void PreviewMap(object? sender, EventArgs e)
+    {
+        // Show a preview of the current map
+        string previewPath = Path.Combine("Textures", GV.CurrentSkin.ToString(), $"map_{GV.CurrentMap}.png");
+        if (File.Exists(previewPath))
+        {
+            using (var previewForm = new Form())
+            {
+                previewForm.Icon = this.Icon;
+                previewForm.Text = "Map Preview";
+                previewForm.Size = new Size(800, 600);
+                previewForm.StartPosition = FormStartPosition.CenterScreen;
+
+                PictureBox pictureBox = new PictureBox
+                {
+                    Dock = DockStyle.Fill,
+                    Image = Image.FromFile(previewPath),
+                    SizeMode = PictureBoxSizeMode.Zoom
+                };
+                previewForm.Controls.Add(pictureBox);
+
+                previewForm.ShowDialog();
+            }
+        }
+        else
+        {
+            MessageBox.Show("No preview available for this map.", "Preview Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 
