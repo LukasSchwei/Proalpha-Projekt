@@ -211,7 +211,7 @@ public partial class MainMenu : Form
                 btnChangeMap.Text = "Map 3";
                 break;
             case 4:
-                GV.CurrentMap = GV.MAP_TEST;  //TODO: change to MAP_4 when available
+                GV.CurrentMap = GV.MAP_4;
                 btnChangeMap.Text = "Map 4";
                 break;
             default:

@@ -17,5 +17,5 @@ public static class GV
     public const string MAP_1 = "m01_xt13=1.map.json";
     public const string MAP_2 = "m02_z391e.map.json";
     public const string MAP_3 = "m03_87!sd6x.map.json";
-    public const string MAP_4 = "m04.json";
+    public const string MAP_4 = "m04_.map.json";
 }
